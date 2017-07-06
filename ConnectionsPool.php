@@ -34,7 +34,7 @@
             $connection->on('data', function($data) use ($connection){
                 $connectionData = $this->getConnectionData($connection);
 
-                if(!empty($connectionData)){
+                if(empty($connectionData)){
                     $this->sendJoinMessage($data, $connection);
                     return;
                 }
