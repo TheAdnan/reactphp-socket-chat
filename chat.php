@@ -1,17 +1,15 @@
 <?php
 	require 'vendor/autoload.php';
+	require 'ConnectionsPool.php';
 
 	use React\Socket\ConnectionInterface;
 
 	$loop = React\EventLoop\Factory::create();
-
 	$socket = new React\Socket\Server('127.0.0.1:8080', $loop);
+	$pool = new ConnectionsPool();
 
-	$socket->on('connection', function (ConnectionInterface $connection){
-	   $connection->write('Selam');
-	   $connection->on('data', function ($data) use ($connection){
-	      $connection->write($data . ", šta?");
-       });
+	$socket->on('connection', function (ConnectionInterface $connection) use ($pool){
+        $pool->add($connection);
     });
 
 
